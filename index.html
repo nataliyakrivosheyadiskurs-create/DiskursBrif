@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бриф — DISKURS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1B4FD8;
+  --blue-dark: #1340B8;
+  --blue-light: #EEF3FF;
+  --blue-mid: #D0DEFF;
+  --black: #0D1117;
+  --white: #ffffff;
+  --gray-100: #F7F8FC;
+  --gray-200: #EDF0F7;
+  --gray-400: #9BA3B8;
+  --gray-600: #5C6478;
+  --gray-800: #2C3347;
+  --radius: 4px;
+  --font-head: 'Unbounded', sans-serif;
+  --font-body: 'Onest', sans-serif;
+  --shadow: 0 2px 12px rgba(27,79,216,0.10);
+  --shadow-lg: 0 8px 32px rgba(27,79,216,0.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--gray-100);
+  color: var(--gray-800);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── LAYOUT ── */
+.page { max-width: 780px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── HEADER ── */
+.header {
+  background: var(--blue);
+  margin: 0 -24px;
+  padding: 0 24px;
+}
+.header-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 0;
+}
+.logo {
+  display: flex; align-items: center; gap: 12px;
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: var(--white);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-icon svg { display: block; }
+.logo-text {
+  font-family: var(--font-head);
+  font-size: 17px; font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+.header-tag {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px; border-radius: var(--radius);
+}
+
+/* ── HERO BAND ── */
+.hero-band {
+  background: var(--blue);
+  margin: 0 -24px 40px;
+  padding: 40px 24px 44px;
+}
+.hero-inner { max-width: 780px; margin: 0 auto; }
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 700; line-height: 1.2;
+  color: var(--white); margin-bottom: 10px;
+}
+.hero-sub {
+  font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6;
+}
+
+/* ── PROGRESS ── */
+.progress-wrap {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+.progress-info { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.progress-step-label { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.08em; color: var(--blue); font-weight: 600; }
+.progress-title { font-size: 12px; color: var(--gray-400); }
+.progress-bar-track { height: 4px; background: var(--gray-200); border-radius: 2px; }
+.progress-bar-fill { height: 4px; background: var(--blue); border-radius: 2px; transition: width 0.4s ease; }
+
+/* ── CARD ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+/* ── SECTION ── */
+.section { display: none; animation: fadeUp 0.3s ease both; }
+.section.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.section-eyebrow {
+  font-family: var(--font-head); font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 8px; font-weight: 600;
+}
+.section-title {
+  font-family: var(--font-head); font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700; line-height: 1.25;
+  margin-bottom: 8px; color: var(--black);
+}
+.section-desc {
+  font-size: 14px; line-height: 1.65; color: var(--gray-600);
+  margin-bottom: 32px;
+}
+
+/* ── FIELDS ── */
+.field { margin-bottom: 22px; }
+.field-label {
+  display: block; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--gray-600); margin-bottom: 8px;
+}
+.field-label .req { color: var(--blue); margin-left: 2px; }
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--gray-100);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  color: var(--black); font-family: var(--font-body);
+  font-size: 15px; padding: 13px 15px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  outline: none; appearance: none;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--blue);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(27,79,216,0.10);
+}
+.field textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.field select option { background: var(--white); }
+.field-hint { font-size: 12px; color: var(--gray-400); margin-top: 5px; line-height: 1.5; }
+
+/* ── CHECKBOXES / RADIO ── */
+.options-grid { display: grid; gap: 8px; }
+.options-grid.col2 { grid-template-columns: 1fr 1fr; }
+@media (max-width: 500px) { .options-grid.col2 { grid-template-columns: 1fr; } }
+
+.opt-item { position: relative; }
+.opt-item input { position: absolute; opacity: 0; width: 0; height: 0; }
+.opt-label {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; cursor: pointer;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  background: var(--gray-100);
+  transition: all 0.15s;
+  font-size: 14px; line-height: 1.45; color: var(--gray-800);
+}
+.opt-label:hover { border-color: var(--blue); background: var(--blue-light); color: var(--black); }
+.opt-item input:checked + .opt-label {
+  border-color: var(--blue);
+  background: var(--blue-light);
+  color: var(--black);
+}
+.opt-box {
+  flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px;
+  border: 2px solid var(--gray-400); border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; background: var(--white);
+}
+.opt-item input[type="radio"] + .opt-label .opt-box { border-radius: 50%; }
+.opt-item input:checked + .opt-label .opt-box {
+  background: var(--blue); border-color: var(--blue);
+}
+.opt-box::after {
+  content: ''; display: none;
+  width: 5px; height: 9px;
+  border: 2px solid var(--white); border-top: none; border-left: none;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+.opt-item input[type="radio"]:checked + .opt-label .opt-box::after {
+  display: block; width: 6px; height: 6px;
+  border: none; border-radius: 50%;
+  background: var(--white); transform: none;
+}
+.opt-item input:checked + .opt-label .opt-box::after { display: block; }
+
+/* ── SERVICES CARDS ── */
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 500px) { .services-grid { grid-template-columns: 1fr; } }
+
+.svc-item { position: relative; }
+.svc-item input { position: absolute; opacity: 0; width: 0; height: 0; }
+.svc-label {
+  display: block; padding: 18px 16px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  background: var(--gray-100);
+  cursor: pointer; transition: all 0.15s;
+}
+.svc-label:hover { border-color: var(--blue); background: var(--blue-light); }
+.svc-item input:checked + .svc-label {
+  border-color: var(--blue);
+  background: var(--blue-light);
+}
+.svc-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+.svc-name { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--black); margin-bottom: 3px; letter-spacing: 0.04em; }
+.svc-desc { font-size: 12px; color: var(--gray-600); line-height: 1.4; }
+.svc-check {
+  position: absolute; top: 12px; right: 12px;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid var(--gray-400);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--white); transition: all 0.15s;
+}
+.svc-item input:checked + .svc-label .svc-check {
+  background: var(--blue); border-color: var(--blue);
+}
+.svc-check::after {
+  content: ''; display: none;
+  width: 5px; height: 8px;
+  border: 2px solid white; border-top: none; border-left: none;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+.svc-item input:checked + .svc-label .svc-check::after { display: block; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--gray-200); margin: 28px 0; }
+.field-group-title {
+  font-family: var(--font-head); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 16px; font-weight: 700;
+  padding-bottom: 10px; border-bottom: 2px solid var(--blue-light);
+}
+
+/* ── BUTTONS ── */
+.btn-row { display: flex; gap: 10px; margin-top: 32px; align-items: center; }
+.btn {
+  font-family: var(--font-head); font-size: 11px;
+  font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; cursor: pointer;
+  border: none; outline: none; border-radius: var(--radius);
+  transition: all 0.18s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary {
+  background: var(--blue); color: var(--white);
+  padding: 14px 32px; box-shadow: 0 4px 14px rgba(27,79,216,0.3);
+}
+.btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(27,79,216,0.38); }
+.btn-primary:active { transform: translateY(0); }
+.btn-secondary {
+  background: var(--white); color: var(--gray-600);
+  padding: 14px 20px; border: 1.5px solid var(--gray-200);
+}
+.btn-secondary:hover { color: var(--blue); border-color: var(--blue); }
+.btn-secondary:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+
+/* ── ERROR ── */
+.field-error { font-size: 12px; color: #D63A1E; margin-top: 5px; display: none; }
+.field.has-error input,
+.field.has-error textarea,
+.field.has-error select { border-color: #D63A1E; }
+.field.has-error .field-error { display: block; }
+
+/* ── SUCCESS ── */
+.success-screen {
+  display: none; text-align: center;
+  padding: 60px 20px;
+}
+.success-screen.active { display: block; animation: fadeUp 0.4s ease both; }
+.success-icon {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--blue-light); border: 2px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px; font-size: 26px; color: var(--blue); font-weight: 700;
+}
+.success-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; margin-bottom: 12px; color: var(--black); }
+.success-desc { font-size: 15px; color: var(--gray-600); line-height: 1.7; max-width: 420px; margin: 0 auto; }
+
+/* ── LOADING OVERLAY ── */
+.loading-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(255,255,255,0.85);
+  z-index: 100; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+}
+.loading-overlay.active { display: flex; }
+.spinner {
+  width: 40px; height: 40px; border: 3px solid var(--blue-mid);
+  border-top-color: var(--blue); border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.08em; color: var(--gray-600); }
+
+/* ── HINTS ── */
+.field-label-row {
+  display: flex; align-items: center; gap: 7px; margin-bottom: 8px;
+}
+.field-label-row .field-label { margin-bottom: 0; }
+.hint-trigger {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--blue-light); border: 1.5px solid var(--blue-mid);
+  color: var(--blue); font-size: 11px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; line-height: 1;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.hint-trigger:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+.hint-box {
+  display: none;
+  background: var(--blue-light);
+  border: 1px solid var(--blue-mid);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  font-size: 13px; line-height: 1.65; color: var(--gray-800);
+}
+.hint-box.open { display: block; animation: fadeUp 0.2s ease both; }
+.hint-box strong { color: var(--blue); font-weight: 600; }
+.hint-box ul { margin: 6px 0 0 16px; }
+.hint-box ul li { margin-bottom: 3px; }
+.hint-example {
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid var(--blue-mid);
+  font-size: 12px; color: var(--gray-600); font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     CONFIG — замени перед деплоем
+     ═══════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  TG_TOKEN: '8947201858:AAGCV1rniHY2F8y4R5m8qMUMFER8a-KvIrc',
+  TG_CHAT_ID: '355652264',
+  SHEETS_WEBHOOK: 'https://script.google.com/macros/s/AKfycbx43epMtIrv5IBPqtgDuQ57Pa270SgNuroEgIUEJiXKMG80zys0Nx-7IMJBftC3-20b/exec',
+};
+</script>
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Отправляем бриф...</div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="2" width="9" height="9" rx="2" fill="#1B4FD8"/>
+          <rect x="13" y="2" width="9" height="9" rx="2" fill="#1B4FD8"/>
+          <rect x="2" y="13" width="9" height="9" rx="2" fill="#1B4FD8"/>
+          <rect x="13" y="13" width="9" height="9" rx="2" fill="#1B4FD8" opacity="0.4"/>
+        </svg>
+      </div>
+      <span class="logo-text">DISKURS</span>
+    </div>
+    <div class="header-tag">Бриф клиента</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero-band">
+  <div class="hero-inner">
+    <div class="hero-title">Заполните бриф</div>
+    <div class="hero-sub">Расскажите о вашем бизнесе — мы подготовим эффективную рекламную стратегию</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-info">
+      <span class="progress-step-label" id="progressLabel">Шаг 1 из 6</span>
+      <span class="progress-title" id="progressTitle">Контакты</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill" style="width:16%"></div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 0: УСЛУГИ ═══ -->
+  <div class="section active" id="step0">
+    <div class="section-eyebrow">Шаг 1 из 6</div>
+    <div class="section-title">Выберите услуги</div>
+    <div class="section-desc">Отметьте все направления, с которыми хотите работать. От этого зависит, какие вопросы вы увидите дальше.</div>
+
+    <div class="field">
+      <label class="field-label">Нужные услуги <span class="req">*</span></label>
+      <div class="services-grid" id="servicesGrid">
+        <div class="svc-item">
+          <input type="checkbox" id="svc_target" name="services" value="Таргет Meta/Instagram">
+          <label class="svc-label" for="svc_target">
+            <div class="svc-check"></div>
+            <span class="svc-icon">🎯</span>
+            <div class="svc-name">Таргет</div>
+            <div class="svc-desc">Реклама в Instagram и Facebook (Meta Ads)</div>
+          </label>
+        </div>
+        <div class="svc-item">
+          <input type="checkbox" id="svc_content" name="services" value="Контент / ведение аккаунта">
+          <label class="svc-label" for="svc_content">
+            <div class="svc-check"></div>
+            <span class="svc-icon">✍️</span>
+            <div class="svc-name">Контент</div>
+            <div class="svc-desc">Ведение и упаковка аккаунта Instagram</div>
+          </label>
+        </div>
+        <div class="svc-item">
+          <input type="checkbox" id="svc_google" name="services" value="Контекст Google Ads">
+          <label class="svc-label" for="svc_google">
+            <div class="svc-check"></div>
+            <span class="svc-icon">🔍</span>
+            <div class="svc-name">Google Ads</div>
+            <div class="svc-desc">Контекстная реклама в поиске и на сайтах</div>
+          </label>
+        </div>
+        <div class="svc-item">
+          <input type="checkbox" id="svc_tiktok" name="services" value="TikTok реклама">
+          <label class="svc-label" for="svc_tiktok">
+            <div class="svc-check"></div>
+            <span class="svc-icon">🎵</span>
+            <div class="svc-name">TikTok</div>
+            <div class="svc-desc">Реклама в TikTok Ads Manager</div>
+          </label>
+        </div>
+      </div>
+      <div class="field-error" id="err_services">Выберите хотя бы одну услугу</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" disabled>← Назад</button>
+      <button class="btn btn-primary" onclick="goTo(1)">Далее →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 1: КОНТАКТЫ ═══ -->
+  <div class="section" id="step1">
+    <div class="section-eyebrow">Шаг 2 из 6</div>
+    <div class="section-title">О компании</div>
+    <div class="section-desc">Расскажите немного о себе — кто вы, где вас найти.</div>
+
+    <div class="field" id="f_company">
+      <label class="field-label" for="company">Название компании <span class="req">*</span></label>
+      <input type="text" id="company" placeholder="Например: Fleur Boutique">
+      <div class="field-error">Обязательное поле</div>
+    </div>
+    <div class="field" id="f_contact">
+      <label class="field-label" for="contact">Контактное лицо <span class="req">*</span></label>
+      <input type="text" id="contact" placeholder="ФИО, должность">
+      <div class="field-error">Обязательное поле</div>
+    </div>
+    <div class="field" id="f_email">
+      <label class="field-label" for="email">Email <span class="req">*</span></label>
+      <input type="email" id="email" placeholder="hello@company.kz">
+      <div class="field-error">Введите корректный email</div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="phone">Телефон</label>
+      <input type="tel" id="phone" placeholder="+7 777 000 00 00">
+    </div>
+    <div class="field">
+      <label class="field-label" for="instagram">Instagram аккаунт</label>
+      <input type="text" id="instagram" placeholder="@yourcompany">
+    </div>
+    <div class="field">
+      <label class="field-label" for="website">Сайт</label>
+      <input type="text" id="website" placeholder="https://yoursite.kz">
+    </div>
+    <div class="field">
+      <label class="field-label" for="tiktok_acc">TikTok аккаунт</label>
+      <input type="text" id="tiktok_acc" placeholder="@yourcompany">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Назад</button>
+      <button class="btn btn-primary" onclick="goTo(2)">Далее →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: О БИЗНЕСЕ ═══ -->
+  <div class="section" id="step2">
+    <div class="section-eyebrow">Шаг 3 из 6</div>
+    <div class="section-title">О бизнесе</div>
+    <div class="section-desc" id="step2_desc">Чем подробнее вы расскажете, тем эффективнее мы сможем подготовиться к работе.</div>
+
+    <div class="field" id="f_product">
+      <label class="field-label" for="product" id="product_label">Расскажите о вашем продукте/услуге <span class="req">*</span></label>
+      <textarea id="product" placeholder="Опишите ваш продукт или услугу подробно: что именно, категория, особенности, ценовой диапазон" rows="4"></textarea>
+      <div id="product_label_ad" style="display:none"></div>
+      <div class="field-error">Обязательное поле</div>
+    </div>
+    <div class="field" id="f_utp">
+      <label class="field-label" for="utp">УТП — уникальное торговое предложение <span class="req">*</span></label>
+      <textarea id="utp" placeholder="Чем вы отличаетесь от конкурентов? Почему должны выбрать именно вас?" rows="3"></textarea>
+      <div class="field-error">Обязательное поле</div>
+    </div>
+
+    <div id="ad_fields_step2">
+    <div class="field">
+      <label class="field-label">Основная цель рекламы <span class="req">*</span></label>
+      <div class="options-grid" id="f_goal">
+        <div class="opt-item"><input type="radio" name="goal" id="goal1" value="Увеличение продаж / заявок"><label class="opt-label" for="goal1"><span class="opt-box"></span>Увеличение продаж / заявок</label></div>
+        <div class="opt-item"><input type="radio" name="goal" id="goal2" value="Повышение узнаваемости бренда"><label class="opt-label" for="goal2"><span class="opt-box"></span>Повышение узнаваемости бренда</label></div>
+        <div class="opt-item"><input type="radio" name="goal" id="goal3" value="Рост подписчиков / охватов"><label class="opt-label" for="goal3"><span class="opt-box"></span>Рост подписчиков / охватов</label></div>
+        <div class="opt-item"><input type="radio" name="goal" id="goal4" value="Обращения в WhatsApp / Direct"><label class="opt-label" for="goal4"><span class="opt-box"></span>Обращения в WhatsApp / Direct</label></div>
+        <div class="opt-item"><input type="radio" name="goal" id="goal5" value="Трафик на сайт"><label class="opt-label" for="goal5"><span class="opt-box"></span>Трафик на сайт</label></div>
+        <div class="opt-item"><input type="radio" name="goal" id="goal6" value="Другое"><label class="opt-label" for="goal6"><span class="opt-box"></span>Другое</label></div>
+      </div>
+      <div class="field-error" id="err_goal">Выберите цель</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Ценовой сегмент</label>
+      <div class="options-grid col2">
+        <div class="opt-item"><input type="radio" name="segment" id="seg1" value="Эконом"><label class="opt-label" for="seg1"><span class="opt-box"></span>Эконом</label></div>
+        <div class="opt-item"><input type="radio" name="segment" id="seg2" value="Средний"><label class="opt-label" for="seg2"><span class="opt-box"></span>Средний</label></div>
+        <div class="opt-item"><input type="radio" name="segment" id="seg3" value="Средний+"><label class="opt-label" for="seg3"><span class="opt-box"></span>Средний+</label></div>
+        <div class="opt-item"><input type="radio" name="segment" id="seg4" value="Премиум"><label class="opt-label" for="seg4"><span class="opt-box"></span>Премиум</label></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="image">Образ бренда</label>
+      <textarea id="image" placeholder="Как должны воспринимать вашу компанию? Какие ассоциации, эмоции, ценности?" rows="2"></textarea>
+    </div>
+    <div class="field">
+      <label class="field-label">Сезонность</label>
+      <div class="options-grid col2">
+        <div class="opt-item"><input type="radio" name="seasonal" id="sea1" value="Да, есть сезонность"><label class="opt-label" for="sea1"><span class="opt-box"></span>Да, есть сезонность</label></div>
+        <div class="opt-item"><input type="radio" name="seasonal" id="sea2" value="Нет, круглогодично"><label class="opt-label" for="sea2"><span class="opt-box"></span>Нет, круглогодично</label></div>
+      </div>
+    </div>
+    </div><!-- /ad_fields_step2 -->
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Назад</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Далее →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: ЦА И КОНКУРЕНТЫ ═══ -->
+  <div class="section" id="step3">
+    <div class="section-eyebrow">Шаг 4 из 6</div>
+    <div class="section-title">Аудитория и конкуренты</div>
+    <div class="section-desc">Помогите нам понять, кто ваш клиент и кто ваши конкуренты.</div>
+
+    <div class="field-group-title">Целевая аудитория</div>
+
+    <div class="field" id="f_demo">
+      <div class="field-label-row">
+        <label class="field-label" for="demo">Демография <span class="req">*</span></label>
+        <span class="hint-trigger" onclick="toggleHint('hint_demo')" title="Подсказка">?</span>
+      </div>
+      <div class="hint-box" id="hint_demo">
+        <strong>Демография</strong> — базовые факты о вашем покупателе.<br>
+        <ul>
+          <li>Пол: мужчины, женщины или оба?</li>
+          <li>Возраст: например, 25–40 лет</li>
+          <li>Город или регион: Алматы, Астана, вся Казахстан?</li>
+          <li>Семейное положение: замужем, дети есть?</li>
+        </ul>
+        <div class="hint-example">Пример: «Женщины 28–45 лет, Алматы и Астана, замужем, есть дети»</div>
+      </div>
+      <textarea id="demo" placeholder="Пол, возраст, город/регион, семейное положение..." rows="3"></textarea>
+      <div class="field-error">Обязательное поле</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label-row">
+        <label class="field-label" for="social">Социальный статус и доход</label>
+        <span class="hint-trigger" onclick="toggleHint('hint_social')" title="Подсказка">?</span>
+      </div>
+      <div class="hint-box" id="hint_social">
+        <strong>Социальный статус</strong> — кем работает ваш клиент и сколько зарабатывает.<br>
+        <ul>
+          <li>Профессия: менеджер, врач, владелец бизнеса, домохозяйка?</li>
+          <li>Уровень дохода: до 200 тыс. тг, 200–500 тыс., от 500 тыс.?</li>
+          <li>Образование: высшее, среднее?</li>
+          <li>Должность: рядовой сотрудник или руководитель?</li>
+        </ul>
+        <div class="hint-example">Пример: «Менеджеры среднего звена, доход 300–600 тыс. тг, высшее образование»</div>
+      </div>
+      <textarea id="social" placeholder="Профессия, уровень дохода, должность, образование..." rows="2"></textarea>
+    </div>
+
+    <div class="field">
+      <div class="field-label-row">
+        <label class="field-label" for="psycho">Психографика и образ жизни</label>
+        <span class="hint-trigger" onclick="toggleHint('hint_psycho')" title="Подсказка">?</span>
+      </div>
+      <div class="hint-box" id="hint_psycho">
+        <strong>Психографика</strong> — как живёт ваш клиент, чем увлекается, что для него важно.<br>
+        <ul>
+          <li>Интересы и хобби: спорт, путешествия, готовка, дети?</li>
+          <li>Ценности: семья, карьера, здоровье, статус?</li>
+          <li>Образ жизни: активный, домашний, деловой?</li>
+          <li>Как принимает решения: долго изучает или покупает импульсивно?</li>
+        </ul>
+        <div class="hint-example">Пример: «Следит за здоровьем, занимается фитнесом, ценит качество, изучает отзывы перед покупкой»</div>
+      </div>
+      <textarea id="psycho" placeholder="Интересы, ценности, привычки, образ жизни..." rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <div class="field-label-row">
+        <label class="field-label" for="painpoints">Боли и мотивы покупки</label>
+        <span class="hint-trigger" onclick="toggleHint('hint_pain')" title="Подсказка">?</span>
+      </div>
+      <div class="hint-box" id="hint_pain">
+        <strong>Боли</strong> — проблема, которую клиент хочет решить с помощью вашего продукта.<br>
+        <strong>Мотивы</strong> — почему он купит именно у вас прямо сейчас.<br>
+        <ul>
+          <li>Что его беспокоит или раздражает?</li>
+          <li>Какой результат он хочет получить?</li>
+          <li>Что мешает ему купить: цена, доверие, нехватка времени?</li>
+        </ul>
+        <div class="hint-example">Пример: «Устала от некачественной косметики, хочет натуральный состав. Покупает когда видит хорошие отзывы и скидку»</div>
+      </div>
+      <textarea id="painpoints" placeholder="Какую проблему решает ваш продукт? Что подтолкнёт к покупке?" rows="2"></textarea>
+    </div>
+
+    <div class="divider"></div>
+    <div class="field-group-title">Конкуренты</div>
+
+    <div class="field">
+      <label class="field-label">Уровень конкуренции</label>
+      <div class="options-grid">
+        <div class="opt-item"><input type="radio" name="competition" id="comp1" value="Низкий — мало прямых конкурентов"><label class="opt-label" for="comp1"><span class="opt-box"></span>Низкий — мало прямых конкурентов</label></div>
+        <div class="opt-item"><input type="radio" name="competition" id="comp2" value="Средний — 3–5 прямых конкурентов"><label class="opt-label" for="comp2"><span class="opt-box"></span>Средний — 3–5 прямых конкурентов</label></div>
+        <div class="opt-item"><input type="radio" name="competition" id="comp3" value="Высокий — рынок перегрет"><label class="opt-label" for="comp3"><span class="opt-box"></span>Высокий — рынок перегрет</label></div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="competitors">Основные конкуренты</label>
+      <textarea id="competitors" placeholder="Укажите названия или аккаунты 2–3 конкурентов" rows="2"></textarea>
+    </div>
+    <div class="field">
+      <label class="field-label" for="comp_good">Что нравится у конкурентов?</label>
+      <textarea id="comp_good" placeholder="Что они делают хорошо — контент, сервис, позиционирование?" rows="2"></textarea>
+    </div>
+    <div class="field">
+      <label class="field-label" for="comp_bad">Слабые стороны конкурентов</label>
+      <textarea id="comp_bad" placeholder="В чём они проигрывают? Где их слабое место?" rows="2"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Назад</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Далее →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: УСЛУГИ (динамический) ═══ -->
+  <div class="section" id="step4">
+    <div class="section-eyebrow">Шаг 5 из 6</div>
+    <div class="section-title">Детали по услугам</div>
+    <div class="section-desc">Уточним детали по выбранным направлениям.</div>
+
+    <!-- ТАРГЕТ META -->
+    <div id="block_target">
+      <div class="field-group-title">🎯 Таргет Meta / Instagram</div>
+      <div class="field">
+        <label class="field-label">Рекламный кабинет Facebook</label>
+        <div class="options-grid">
+          <div class="opt-item"><input type="radio" name="fb_account" id="fb1" value="Свой личный аккаунт Facebook"><label class="opt-label" for="fb1"><span class="opt-box"></span>Есть свой личный аккаунт Facebook</label></div>
+          <div class="opt-item"><input type="radio" name="fb_account" id="fb2" value="Ранее работал с другим агентством"><label class="opt-label" for="fb2"><span class="opt-box"></span>Ранее работал с другим агентством</label></div>
+          <div class="opt-item"><input type="radio" name="fb_account" id="fb3" value="Нет аккаунта, запускаемся впервые"><label class="opt-label" for="fb3"><span class="opt-box"></span>Нет аккаунта — запускаемся впервые</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Были блокировки или отклонения объявлений?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="fb_ban" id="ban1" value="Да, были проблемы"><label class="opt-label" for="ban1"><span class="opt-box"></span>Да, были проблемы</label></div>
+          <div class="opt-item"><input type="radio" name="fb_ban" id="ban2" value="Нет проблем"><label class="opt-label" for="ban2"><span class="opt-box"></span>Нет, всё чисто</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Facebook Pixel установлен на сайте?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="pixel" id="pix1" value="Да"><label class="opt-label" for="pix1"><span class="opt-box"></span>Да, установлен</label></div>
+          <div class="opt-item"><input type="radio" name="pixel" id="pix2" value="Нет / нет сайта"><label class="opt-label" for="pix2"><span class="opt-box"></span>Нет / нет сайта</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Куда вести трафик?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="checkbox" id="traffic_site" value="На сайт"><label class="opt-label" for="traffic_site"><span class="opt-box"></span>На сайт</label></div>
+          <div class="opt-item"><input type="checkbox" id="traffic_wa" value="WhatsApp"><label class="opt-label" for="traffic_wa"><span class="opt-box"></span>WhatsApp</label></div>
+          <div class="opt-item"><input type="checkbox" id="traffic_direct" value="Instagram Direct"><label class="opt-label" for="traffic_direct"><span class="opt-box"></span>Instagram Direct</label></div>
+          <div class="opt-item"><input type="checkbox" id="traffic_lead" value="Лид-форма"><label class="opt-label" for="traffic_lead"><span class="opt-box"></span>Лид-форма</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Месячный рекламный бюджет (Meta)</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="budget_meta" id="bm1" value="до $300"><label class="opt-label" for="bm1"><span class="opt-box"></span>До $300</label></div>
+          <div class="opt-item"><input type="radio" name="budget_meta" id="bm2" value="$300–$700"><label class="opt-label" for="bm2"><span class="opt-box"></span>$300–$700</label></div>
+          <div class="opt-item"><input type="radio" name="budget_meta" id="bm3" value="$700–$1500"><label class="opt-label" for="bm3"><span class="opt-box"></span>$700–$1500</label></div>
+          <div class="opt-item"><input type="radio" name="budget_meta" id="bm4" value="от $1500"><label class="opt-label" for="bm4"><span class="opt-box"></span>От $1500</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="creatives_meta">Исходники для креативов</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="checkbox" id="cr_photo" value="Фото"><label class="opt-label" for="cr_photo"><span class="opt-box"></span>Фото</label></div>
+          <div class="opt-item"><input type="checkbox" id="cr_video" value="Видео"><label class="opt-label" for="cr_video"><span class="opt-box"></span>Видео</label></div>
+          <div class="opt-item"><input type="checkbox" id="cr_stock" value="Согласны на сток"><label class="opt-label" for="cr_stock"><span class="opt-box"></span>Согласны на сток</label></div>
+          <div class="opt-item"><input type="checkbox" id="cr_none" value="Нет исходников"><label class="opt-label" for="cr_none"><span class="opt-box"></span>Нет исходников</label></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <!-- GOOGLE ADS -->
+    <div id="block_google">
+      <div class="field-group-title">🔍 Google Ads</div>
+      <div class="field">
+        <label class="field-label">Есть аккаунт Google Ads?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="gadwords" id="gads1" value="Да, есть"><label class="opt-label" for="gads1"><span class="opt-box"></span>Да, есть</label></div>
+          <div class="opt-item"><input type="radio" name="gadwords" id="gads2" value="Нет, создаём"><label class="opt-label" for="gads2"><span class="opt-box"></span>Нет, создаём</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Установлен Google Analytics / Метрика?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="analytics" id="an1" value="Google Analytics"><label class="opt-label" for="an1"><span class="opt-box"></span>Google Analytics</label></div>
+          <div class="opt-item"><input type="radio" name="analytics" id="an2" value="Яндекс Метрика"><label class="opt-label" for="an2"><span class="opt-box"></span>Яндекс Метрика</label></div>
+          <div class="opt-item"><input type="radio" name="analytics" id="an3" value="Оба"><label class="opt-label" for="an3"><span class="opt-box"></span>Оба</label></div>
+          <div class="opt-item"><input type="radio" name="analytics" id="an4" value="Ничего нет"><label class="opt-label" for="an4"><span class="opt-box"></span>Ничего нет</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="keywords">Ключевые запросы (примерно)</label>
+        <textarea id="keywords" placeholder="Напишите несколько поисковых запросов, по которым вас должны находить" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Месячный рекламный бюджет (Google)</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="budget_google" id="bg1" value="до $300"><label class="opt-label" for="bg1"><span class="opt-box"></span>До $300</label></div>
+          <div class="opt-item"><input type="radio" name="budget_google" id="bg2" value="$300–$700"><label class="opt-label" for="bg2"><span class="opt-box"></span>$300–$700</label></div>
+          <div class="opt-item"><input type="radio" name="budget_google" id="bg3" value="$700–$1500"><label class="opt-label" for="bg3"><span class="opt-box"></span>$700–$1500</label></div>
+          <div class="opt-item"><input type="radio" name="budget_google" id="bg4" value="от $1500"><label class="opt-label" for="bg4"><span class="opt-box"></span>От $1500</label></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <!-- TIKTOK -->
+    <div id="block_tiktok">
+      <div class="field-group-title">🎵 TikTok реклама</div>
+      <div class="field">
+        <label class="field-label">Есть TikTok аккаунт компании?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="tt_acc" id="tt1" value="Да, ведём TikTok"><label class="opt-label" for="tt1"><span class="opt-box"></span>Да, активно ведём</label></div>
+          <div class="opt-item"><input type="radio" name="tt_acc" id="tt2" value="Есть, но нерегулярно"><label class="opt-label" for="tt2"><span class="opt-box"></span>Есть, но нерегулярно</label></div>
+          <div class="opt-item"><input type="radio" name="tt_acc" id="tt3" value="Нет аккаунта"><label class="opt-label" for="tt3"><span class="opt-box"></span>Нет аккаунта</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Готовы снимать видео по нашим сценариям?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="tt_video" id="ttv1" value="Да, готовы снимать"><label class="opt-label" for="ttv1"><span class="opt-box"></span>Да, готовы</label></div>
+          <div class="opt-item"><input type="radio" name="tt_video" id="ttv2" value="Нет возможности"><label class="opt-label" for="ttv2"><span class="opt-box"></span>Нет возможности</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Месячный рекламный бюджет (TikTok)</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="budget_tt" id="bt1" value="до $300"><label class="opt-label" for="bt1"><span class="opt-box"></span>До $300</label></div>
+          <div class="opt-item"><input type="radio" name="budget_tt" id="bt2" value="$300–$700"><label class="opt-label" for="bt2"><span class="opt-box"></span>$300–$700</label></div>
+          <div class="opt-item"><input type="radio" name="budget_tt" id="bt3" value="$700+"><label class="opt-label" for="bt3"><span class="opt-box"></span>$700+</label></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <!-- КОНТЕНТ -->
+    <div id="block_content">
+      <div class="field-group-title">✍️ Контент / ведение аккаунта</div>
+      <div class="field">
+        <label class="field-label">Текущее состояние аккаунта</label>
+        <div class="options-grid">
+          <div class="opt-item"><input type="radio" name="acc_state" id="acc1" value="Активно ведётся"><label class="opt-label" for="acc1"><span class="opt-box"></span>Активно ведётся (сторис ежедневно, посты регулярно)</label></div>
+          <div class="opt-item"><input type="radio" name="acc_state" id="acc2" value="Ведётся нерегулярно"><label class="opt-label" for="acc2"><span class="opt-box"></span>Ведётся нерегулярно</label></div>
+          <div class="opt-item"><input type="radio" name="acc_state" id="acc3" value="Аккаунт не ведётся"><label class="opt-label" for="acc3"><span class="opt-box"></span>Аккаунт есть, но не ведётся</label></div>
+          <div class="opt-item"><input type="radio" name="acc_state" id="acc4" value="Аккаунта нет"><label class="opt-label" for="acc4"><span class="opt-box"></span>Аккаунта нет — создаём с нуля</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Язык ведения аккаунта</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="lang" id="lng1" value="Только русский"><label class="opt-label" for="lng1"><span class="opt-box"></span>Только русский</label></div>
+          <div class="opt-item"><input type="radio" name="lang" id="lng2" value="Только казахский"><label class="opt-label" for="lng2"><span class="opt-box"></span>Только казахский</label></div>
+          <div class="opt-item"><input type="radio" name="lang" id="lng3" value="Русский и казахский"><label class="opt-label" for="lng3"><span class="opt-box"></span>Русский + казахский</label></div>
+          <div class="opt-item"><input type="radio" name="lang" id="lng4" value="Три и более языка"><label class="opt-label" for="lng4"><span class="opt-box"></span>3+ языка</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="tone">Tone of voice — как должны звучать тексты?</label>
+        <textarea id="tone" placeholder="Дружелюбно, экспертно, провокационно, нейтрально-информативно..." rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="refs">Референсы — аккаунты, которые нравятся</label>
+        <textarea id="refs" placeholder="Аккаунты Instagram/TikTok, стиль которых вам близок. Что именно нравится?" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Исходники для контента</label>
+        <div class="options-grid">
+          <div class="opt-item"><input type="radio" name="content_src" id="cs1" value="Есть фото и видео"><label class="opt-label" for="cs1"><span class="opt-box"></span>Есть фото и видео материалы</label></div>
+          <div class="opt-item"><input type="radio" name="content_src" id="cs2" value="Можем снимать по запросу"><label class="opt-label" for="cs2"><span class="opt-box"></span>Готовы снимать по нашим сценариям</label></div>
+          <div class="opt-item"><input type="radio" name="content_src" id="cs3" value="Нет исходников"><label class="opt-label" for="cs3"><span class="opt-box"></span>Нет исходников и нет возможности снять</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="brandbook">Есть брендбук или фирменный стиль?</label>
+        <div class="options-grid col2">
+          <div class="opt-item"><input type="radio" name="brand" id="br1" value="Да, есть брендбук"><label class="opt-label" for="br1"><span class="opt-box"></span>Да, есть брендбук</label></div>
+          <div class="opt-item"><input type="radio" name="brand" id="br2" value="Нет брендбука"><label class="opt-label" for="br2"><span class="opt-box"></span>Нет, разработаете сами</label></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="design_pref">Пожелания по дизайну</label>
+        <textarea id="design_pref" placeholder="Цвета, шрифты, стиль. Что нравится, что категорически нет?" rows="2"></textarea>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <!-- ТЕХБАЗА -->
+    <div id="block_techbase">
+    <div class="field-group-title">⚙️ Техническая база</div>
+    <div class="field" id="field_crm">
+      <label class="field-label">CRM система</label>
+      <div class="options-grid col2">
+        <div class="opt-item"><input type="radio" name="crm" id="crm1" value="Bitrix24"><label class="opt-label" for="crm1"><span class="opt-box"></span>Bitrix24</label></div>
+        <div class="opt-item"><input type="radio" name="crm" id="crm2" value="AMO CRM"><label class="opt-label" for="crm2"><span class="opt-box"></span>AMO CRM</label></div>
+        <div class="opt-item"><input type="radio" name="crm" id="crm3" value="Другая CRM"><label class="opt-label" for="crm3"><span class="opt-box"></span>Другая CRM</label></div>
+        <div class="opt-item"><input type="radio" name="crm" id="crm4" value="Нет CRM"><label class="opt-label" for="crm4"><span class="opt-box"></span>Не используем</label></div>
+      </div>
+    </div>
+    <div class="field" id="field_sales">
+      <label class="field-label" for="sales">Отдел продаж</label>
+      <textarea id="sales" placeholder="Как устроена обработка заявок? Сколько менеджеров? Через какие каналы?" rows="2"></textarea>
+    </div>
+    <div class="field" id="field_prev_ads">
+      <label class="field-label" for="prev_ads">Предыдущий опыт в рекламе</label>
+      <textarea id="prev_ads" placeholder="Что запускали, какие бюджеты, какие результаты получили?" rows="2"></textarea>
+    </div>
+    </div><!-- /block_techbase -->
+    <div class="field">
+      <label class="field-label" for="extra">Дополнительная информация</label>
+      <textarea id="extra" placeholder="Всё, что важно знать о вашем бизнесе и что не вошло выше..." rows="3"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Назад</button>
+      <button class="btn btn-primary" onclick="goTo(5)">Далее →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 5: ИТОГ ═══ -->
+  <div class="section" id="step5">
+    <div class="section-eyebrow">Шаг 6 из 6</div>
+    <div class="section-title">Проверьте данные</div>
+    <div class="section-desc">Проверьте данные и отправьте бриф — команда DISKURS получит его сразу.</div>
+
+    <div id="summaryBlock" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:2px; padding:28px; margin-bottom:32px; font-size:14px; line-height:2; color:var(--gray-200);"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Назад</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">Отправить бриф →</button>
+    </div>
+  </div>
+
+  <!-- ═══ SUCCESS ═══ -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon" style="font-size:28px;">✓</div>
+    <div class="success-title">Бриф отправлен!</div>
+    <div class="success-desc">Спасибо! Ваш бриф получен командой DISKURS. В ближайшее время мы назначим проектную группу и свяжемся с вами.</div>
+  </div>
+
+
+<div style="text-align:center; padding: 40px 0 0; font-size: 12px; color: var(--gray-400);">
+  © DISKURS Digital Marketing Agency · Алматы
+</div>
+
+</div>
+
+<script>
+// ── STATE ──
+let currentStep = 0;
+let formData = {};
+
+const STEPS = [
+  { id: 'step0', label: 'Шаг 1 из 6', title: 'Услуги' },
+  { id: 'step1', label: 'Шаг 2 из 6', title: 'Контакты' },
+  { id: 'step2', label: 'Шаг 3 из 6', title: 'О бизнесе' },
+  { id: 'step3', label: 'Шаг 4 из 6', title: 'Аудитория' },
+  { id: 'step4', label: 'Шаг 5 из 6', title: 'Детали услуг' },
+  { id: 'step5', label: 'Шаг 6 из 6', title: 'Подтверждение' },
+];
+
+// ── NAVIGATION ──
+function goTo(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  if (n === 5) buildSummary();
+
+  document.getElementById(STEPS[currentStep].id).classList.remove('active');
+  currentStep = n;
+  const step = STEPS[n];
+  document.getElementById(step.id).classList.add('active');
+  document.getElementById('progressLabel').textContent = step.label;
+  document.getElementById('progressTitle').textContent = step.title;
+  document.getElementById('progressFill').style.width = ((n + 1) / 6 * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (n === 4) updateServiceBlocks();
+}
+
+// ── SHOW/HIDE SERVICE BLOCKS ──
+function isAdOnly() {
+  const s = getChecked('services');
+  return s.length > 0 && s.every(v => v === 'Контент / ведение аккаунта');
+}
+
+function updateServiceBlocks() {
+  const services = getChecked('services');
+  const contentOnly = isAdOnly();
+
+  document.getElementById('block_target').style.display = services.includes('Таргет Meta/Instagram') ? '' : 'none';
+  document.getElementById('block_google').style.display = services.includes('Контекст Google Ads') ? '' : 'none';
+  document.getElementById('block_tiktok').style.display = services.includes('TikTok реклама') ? '' : 'none';
+  document.getElementById('block_content').style.display = services.includes('Контент / ведение аккаунта') ? '' : 'none';
+
+  // Hide ad-specific fields on step2 if only content
+  const adBlock = document.getElementById('ad_fields_step2');
+  if (adBlock) adBlock.style.display = contentOnly ? 'none' : '';
+
+  // Update product label
+  const productLabel = document.getElementById('product_label');
+  if (productLabel) productLabel.textContent = contentOnly
+    ? 'Расскажите о вашем продукте/услуге *'
+    : 'Что рекламируем? *';
+
+  // Hide tech base ad fields if only content
+  const hideAdTech = contentOnly;
+  ['field_crm', 'field_sales', 'field_prev_ads'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = hideAdTech ? 'none' : '';
+  });
+  const tb = document.getElementById('block_techbase');
+  if (tb) {
+    // Show/hide the section title — hide entirely if content only
+    tb.style.display = hideAdTech ? 'none' : '';
+  }
+}
+
+// ── HELPERS ──
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function getRadio(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
+function getChecked(name) { return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value); }
+function getCheckboxGroup(...ids) { return ids.filter(id => { const el = document.getElementById(id); return el && el.checked; }).map(id => document.getElementById(id).value); }
+
+// ── VALIDATION ──
+function validateStep(n) {
+  let ok = true;
+  const clear = (id) => { const f = document.getElementById(id); if (f) f.classList.remove('has-error'); };
+  const err = (id) => { const f = document.getElementById(id); if (f) { f.classList.add('has-error'); ok = false; } };
+  const errDirect = (id) => { const el = document.getElementById(id); if (el) { el.style.display = 'block'; ok = false; } };
+  const clearDirect = (id) => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+
+  if (n === 0) {
+    clearDirect('err_services');
+    if (getChecked('services').length === 0) { errDirect('err_services'); ok = false; }
+  }
+  if (n === 1) {
+    ['f_company','f_contact','f_email'].forEach(clear);
+    if (!val('company')) err('f_company');
+    if (!val('contact')) err('f_contact');
+    if (!val('email') || !val('email').includes('@')) err('f_email');
+  }
+  if (n === 2) {
+    clear('f_product'); clear('f_utp'); clearDirect('err_goal');
+    if (!val('product')) err('f_product');
+    if (!val('utp')) err('f_utp');
+    const hasAds = getChecked('services').some(s => s !== 'Контент / ведение аккаунта');
+    if (hasAds && !getRadio('goal')) { errDirect('err_goal'); ok = false; }
+  }
+  if (n === 3) {
+    clear('f_demo');
+    if (!val('demo')) err('f_demo');
+  }
+  return ok;
+}
+
+// ── COLLECT DATA ──
+function collectData() {
+  const services = getChecked('services');
+  formData = {
+    services: services.join(', '),
+    company: val('company'),
+    contact: val('contact'),
+    email: val('email'),
+    phone: val('phone'),
+    instagram: val('instagram'),
+    website: val('website'),
+    tiktok_acc: val('tiktok_acc'),
+    product: val('product'),
+    utp: val('utp'),
+    goal: getRadio('goal'),
+    segment: getRadio('segment'),
+    image: val('image'),
+    seasonal: getRadio('seasonal'),
+    demo: val('demo'),
+    social: val('social'),
+    psycho: val('psycho'),
+    painpoints: val('painpoints'),
+    competition: getRadio('competition'),
+    competitors: val('competitors'),
+    comp_good: val('comp_good'),
+    comp_bad: val('comp_bad'),
+  };
+
+  if (services.includes('Таргет Meta/Instagram')) {
+    formData.fb_account = getRadio('fb_account');
+    formData.fb_ban = getRadio('fb_ban');
+    formData.pixel = getRadio('pixel');
+    formData.traffic = getCheckboxGroup('traffic_site','traffic_wa','traffic_direct','traffic_lead').join(', ');
+    formData.budget_meta = getRadio('budget_meta');
+    formData.creatives = getCheckboxGroup('cr_photo','cr_video','cr_stock','cr_none').join(', ');
+  }
+  if (services.includes('Контекст Google Ads')) {
+    formData.gadwords = getRadio('gadwords');
+    formData.analytics = getRadio('analytics');
+    formData.keywords = val('keywords');
+    formData.budget_google = getRadio('budget_google');
+  }
+  if (services.includes('TikTok реклама')) {
+    formData.tt_acc = getRadio('tt_acc');
+    formData.tt_video = getRadio('tt_video');
+    formData.budget_tt = getRadio('budget_tt');
+  }
+  if (services.includes('Контент / ведение аккаунта')) {
+    formData.acc_state = getRadio('acc_state');
+    formData.lang = getRadio('lang');
+    formData.tone = val('tone');
+    formData.refs = val('refs');
+    formData.content_src = getRadio('content_src');
+    formData.brand = getRadio('brand');
+    formData.design_pref = val('design_pref');
+  }
+
+  formData.crm = getRadio('crm');
+  formData.sales = val('sales');
+  formData.prev_ads = val('prev_ads');
+  formData.extra = val('extra');
+  formData.submittedAt = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' });
+}
+
+// ── SUMMARY ──
+function buildSummary() {
+  collectData();
+  const rows = [
+    ['Услуги', formData.services],
+    ['Компания', formData.company],
+    ['Контакт', formData.contact],
+    ['Email', formData.email],
+    ['Телефон', formData.phone],
+    ['Instagram', formData.instagram],
+    ['Сайт', formData.website],
+    ['Продукт', formData.product],
+    ['УТП', formData.utp],
+    ['Цель', formData.goal],
+    ['Сегмент', formData.segment],
+    ['Образ бренда', formData.image],
+    ['Демография ЦА', formData.demo],
+    ['Соцстатус ЦА', formData.social],
+    ['Психографика', formData.psycho],
+    ['Боли / мотивы', formData.painpoints],
+    ['Конкуренция', formData.competition],
+    ['Конкуренты', formData.competitors],
+    ['Плюсы конкурентов', formData.comp_good],
+    ['Минусы конкурентов', formData.comp_bad],
+    formData.fb_account && ['Аккаунт Facebook', formData.fb_account],
+    formData.budget_meta && ['Бюджет Meta', formData.budget_meta],
+    formData.traffic && ['Трафик Meta', formData.traffic],
+    formData.budget_google && ['Бюджет Google', formData.budget_google],
+    formData.budget_tt && ['Бюджет TikTok', formData.budget_tt],
+    formData.acc_state && ['Состояние аккаунта', formData.acc_state],
+    formData.lang && ['Язык', formData.lang],
+    formData.tone && ['Tone of voice', formData.tone],
+    formData.design_pref && ['Дизайн', formData.design_pref],
+    ['CRM', formData.crm],
+    formData.sales && ['Отдел продаж', formData.sales],
+    formData.prev_ads && ['Опыт в рекламе', formData.prev_ads],
+    formData.extra && ['Доп. информация', formData.extra],
+  ].filter(Boolean).filter(r => r[1]);
+
+  document.getElementById('summaryBlock').innerHTML = rows.map(([k, v]) =>
+    `<div style="display:flex;gap:16px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <span style="flex:0 0 180px;color:var(--gray-600);font-size:12px;text-transform:uppercase;letter-spacing:0.06em;padding-top:2px">${k}</span>
+      <span style="flex:1;color:var(--gray-200)">${v}</span>
+    </div>`
+  ).join('');
+}
+
+
+// ── FORMAT TELEGRAM ──
+function formatTelegram() {
+  const d = formData;
+  let msg = `📋 *Новый бриф DISKURS*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `🏢 *${d.company}*\n`;
+  msg += `👤 ${d.contact}\n`;
+  msg += `📧 ${d.email}`;
+  if (d.phone) msg += ` | ${d.phone}`;
+  msg += `\n`;
+  if (d.instagram) msg += `📸 ${d.instagram}\n`;
+  if (d.website) msg += `🌐 ${d.website}\n`;
+  msg += `\n*🎯 Услуги:* ${d.services}\n`;
+  msg += `*📌 Цель:* ${d.goal || '—'}\n`;
+  if (d.segment) msg += `*💎 Сегмент:* ${d.segment}\n`;
+  msg += `\n*📦 Продукт:*\n${d.product}\n`;
+  msg += `\n*✨ УТП:*\n${d.utp}\n`;
+  if (d.budget_meta) msg += `\n*💰 Бюджет Meta:* ${d.budget_meta}`;
+  if (d.budget_google) msg += ` | Google: ${d.budget_google}`;
+  if (d.budget_tt) msg += ` | TikTok: ${d.budget_tt}`;
+  msg += `\n\n⏱ ${d.submittedAt}`;
+  return msg;
+}
+
+// ── PDF → base64 ──
+// ── DOCX generator (pure JS, no libs) ──
+// Builds a real .docx (OOXML) as a Blob using only built-in browser APIs
+function buildDocxBlob() {
+  const d = formData;
+
+  const SECTIONS = [
+    { title: 'Контакты', rows: [
+      ['Компания', d.company], ['Контакт', d.contact], ['Email', d.email],
+      ['Телефон', d.phone], ['Instagram', d.instagram], ['Сайт', d.website], ['TikTok', d.tiktok_acc]
+    ]},
+    { title: 'Услуги и цели', rows: [
+      ['Услуги', d.services], ['Цель', d.goal], ['Сегмент', d.segment],
+      ['Образ бренда', d.image], ['Сезонность', d.seasonal]
+    ]},
+    { title: 'Продукт', rows: [['Описание продукта', d.product], ['УТП', d.utp]]},
+    { title: 'Целевая аудитория', rows: [
+      ['Демография', d.demo], ['Соцстатус и доход', d.social],
+      ['Психографика', d.psycho], ['Боли и мотивы', d.painpoints]
+    ]},
+    { title: 'Конкуренты', rows: [
+      ['Уровень конкуренции', d.competition], ['Конкуренты', d.competitors],
+      ['Сильные стороны конкурентов', d.comp_good], ['Слабые стороны конкурентов', d.comp_bad]
+    ]},
+    { title: 'Таргет Meta / Instagram', rows: [
+      ['Аккаунт Facebook', d.fb_account], ['Блокировки', d.fb_ban],
+      ['Facebook Pixel', d.pixel], ['Куда вести трафик', d.traffic],
+      ['Бюджет Meta', d.budget_meta], ['Исходники для креативов', d.creatives]
+    ]},
+    { title: 'Google Ads', rows: [
+      ['Аккаунт Google Ads', d.gadwords], ['Аналитика', d.analytics],
+      ['Ключевые запросы', d.keywords], ['Бюджет Google', d.budget_google]
+    ]},
+    { title: 'TikTok', rows: [
+      ['TikTok аккаунт', d.tt_acc], ['Съёмка видео', d.tt_video], ['Бюджет TikTok', d.budget_tt]
+    ]},
+    { title: 'Контент / ведение аккаунта', rows: [
+      ['Состояние аккаунта', d.acc_state], ['Язык', d.lang], ['Tone of voice', d.tone],
+      ['Референсы', d.refs], ['Исходники', d.content_src], ['Брендбук', d.brand],
+      ['Пожелания по дизайну', d.design_pref]
+    ]},
+    { title: 'Техническая база', rows: [
+      ['CRM', d.crm], ['Отдел продаж', d.sales],
+      ['Опыт в рекламе', d.prev_ads], ['Доп. информация', d.extra]
+    ]},
+  ];
+
+  const xml = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const clrBlue = '1B4FD8';
+  const clrLightBlue = 'EEF3FF';
+  const clrGray = '6B7280';
+  const clrDark = '111827';
+
+  const heading = `
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/><w:spacing w:after="0"/></w:pPr>
+      <w:r><w:rPr><w:color w:val="${clrBlue}"/><w:sz w:val="36"/><w:szCs w:val="36"/><w:b/></w:rPr>
+        <w:t>DISKURS — Бриф клиента</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:spacing w:after="80"/></w:pPr>
+      <w:r><w:rPr><w:color w:val="${clrGray}"/><w:sz w:val="18"/></w:rPr>
+        <w:t>${xml(d.company || '')}${d.submittedAt ? ' · ' + xml(d.submittedAt) : ''}</w:t></w:r>
+    </w:p>`;
+
+  let body = heading;
+
+  for (const sec of SECTIONS) {
+    const rows = sec.rows.filter(([,v]) => v);
+    if (!rows.length) continue;
+
+    // Section heading row in a table
+    body += `
+    <w:p>
+      <w:pPr><w:spacing w:before="200" w:after="40"/><w:shd w:val="clear" w:color="auto" w:fill="${clrLightBlue}"/></w:pPr>
+      <w:r><w:rPr><w:b/><w:color w:val="${clrBlue}"/><w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr>
+        <w:t>${xml(sec.title.toUpperCase())}</w:t></w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:w="9360" w:type="dxa"/>
+        <w:tblBorders>
+          <w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+          <w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+          <w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+          <w:insideH w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+          <w:insideV w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+        </w:tblBorders>
+        <w:tblCellMar>
+          <w:top w:w="80" w:type="dxa"/><w:left w:w="120" w:type="dxa"/>
+          <w:bottom w:w="80" w:type="dxa"/><w:right w:w="120" w:type="dxa"/>
+        </w:tblCellMar>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2520"/>
+        <w:gridCol w:w="6840"/>
+      </w:tblGrid>`;
+
+    for (const [label, value] of rows) {
+      const lines = String(value).split('
+');
+      const cellContent = lines.map((line, i) =>
+        `<w:p><w:pPr><w:spacing w:after="${i < lines.length-1 ? '0' : '40'}"/></w:pPr>
+          <w:r><w:rPr><w:color w:val="${clrDark}"/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr>
+          <w:t xml:space="preserve">${xml(line)}</w:t></w:r></w:p>`
+      ).join('');
+
+      body += `
+      <w:tr>
+        <w:tc>
+          <w:tcPr><w:tcW w:w="2520" w:type="dxa"/>
+            <w:shd w:val="clear" w:color="auto" w:fill="F9FAFB"/>
+          </w:tcPr>
+          <w:p><w:pPr><w:spacing w:after="40"/></w:pPr>
+            <w:r><w:rPr><w:color w:val="${clrGray}"/><w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr>
+              <w:t>${xml(label)}</w:t></w:r></w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr><w:tcW w:w="6840" w:type="dxa"/></w:tcPr>
+          ${cellContent}
+        </w:tc>
+      </w:tr>`;
+    }
+    body += `
+    </w:tbl>`;
+  }
+
+  const docxml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+  xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+  xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<w:body>
+${body}
+<w:sectPr>
+  <w:pgSz w:w="12240" w:h="15840"/>
+  <w:pgMar w:top="1080" w:right="1080" w:bottom="1080" w:left="1080" w:header="720" w:footer="720" w:gutter="0"/>
+</w:sectPr>
+</w:body>
+</w:document>`;
+
+  const relsxml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`;
+
+  const wordRelsxml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+</Relationships>`;
+
+  const stylesxml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault><w:rPr>
+      <w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>
+      <w:sz w:val="20"/><w:szCs w:val="20"/>
+      <w:color w:val="111827"/>
+    </w:rPr></w:rPrDefault>
+  </w:docDefaults>
+  <w:style w:type="table" w:styleId="TableGrid">
+    <w:name w:val="Table Grid"/>
+    <w:tblPr><w:tblBorders>
+      <w:top w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+      <w:left w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+      <w:bottom w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+      <w:right w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+      <w:insideH w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+      <w:insideV w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>
+    </w:tblBorders></w:tblPr>
+  </w:style>
+</w:styles>`;
+
+  const contentTypesxml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+  <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
+</Types>`;
+
+  // Build zip manually using a minimal ZIP implementation
+  function strToBytes(str) {
+    const enc = new TextEncoder();
+    return enc.encode(str);
+  }
+
+  function crc32(buf) {
+    let crc = 0xFFFFFFFF;
+    const table = crc32.table || (crc32.table = (() => {
+      const t = new Uint32Array(256);
+      for (let i = 0; i < 256; i++) {
+        let c = i;
+        for (let j = 0; j < 8; j++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+        t[i] = c;
+      }
+      return t;
+    })());
+    for (let i = 0; i < buf.length; i++) crc = table[(crc ^ buf[i]) & 0xFF] ^ (crc >>> 8);
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  function u16le(n) { return [n & 0xFF, (n >> 8) & 0xFF]; }
+  function u32le(n) { return [n & 0xFF, (n >> 8) & 0xFF, (n >> 16) & 0xFF, (n >> 24) & 0xFF]; }
+
+  const files = [
+    { name: '[Content_Types].xml', data: strToBytes(contentTypesxml) },
+    { name: '_rels/.rels', data: strToBytes(relsxml) },
+    { name: 'word/document.xml', data: strToBytes(docxml) },
+    { name: 'word/_rels/document.xml.rels', data: strToBytes(wordRelsxml) },
+    { name: 'word/styles.xml', data: strToBytes(stylesxml) },
+  ];
+
+  const centralDir = [];
+  const parts = [];
+  let offset = 0;
+
+  for (const f of files) {
+    const nameBytes = strToBytes(f.name);
+    const crc = crc32(f.data);
+    const size = f.data.length;
+    const now = new Date();
+    const dosDate = ((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+    const dosTime = (now.getHours() << 11) | (now.getMinutes() << 5) | Math.floor(now.getSeconds() / 2);
+
+    // Local file header
+    const localHeader = new Uint8Array([
+      0x50,0x4B,0x03,0x04, // signature
+      20,0,                 // version needed
+      0,0,                  // flags
+      0,0,                  // compression (stored)
+      ...u16le(dosTime), ...u16le(dosDate),
+      ...u32le(crc),
+      ...u32le(size), ...u32le(size), // compressed = uncompressed
+      ...u16le(nameBytes.length), 0,0 // filename len, extra len
+    ]);
+
+    parts.push(localHeader, nameBytes, f.data);
+
+    centralDir.push({ nameBytes, crc, size, offset, dosDate, dosTime });
+    offset += localHeader.length + nameBytes.length + size;
+  }
+
+  // Central directory
+  const cdParts = [];
+  let cdSize = 0;
+  for (const e of centralDir) {
+    const cd = new Uint8Array([
+      0x50,0x4B,0x01,0x02,
+      20,0, 20,0, 0,0, 0,0,
+      ...u16le(e.dosTime), ...u16le(e.dosDate),
+      ...u32le(e.crc),
+      ...u32le(e.size), ...u32le(e.size),
+      ...u16le(e.nameBytes.length), 0,0, 0,0, 0,0, 0,0,
+      0,0,0,0,
+      ...u32le(e.offset)
+    ]);
+    cdParts.push(cd, e.nameBytes);
+    cdSize += cd.length + e.nameBytes.length;
+  }
+
+  // End of central directory
+  const eocd = new Uint8Array([
+    0x50,0x4B,0x05,0x06,
+    0,0, 0,0,
+    ...u16le(files.length), ...u16le(files.length),
+    ...u32le(cdSize),
+    ...u32le(offset),
+    0,0
+  ]);
+
+  const allParts = [...parts, ...cdParts, eocd];
+  const totalLen = allParts.reduce((s, a) => s + a.length, 0);
+  const result = new Uint8Array(totalLen);
+  let pos = 0;
+  for (const p of allParts) { result.set(p, pos); pos += p.length; }
+
+  return new Blob([result], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+}
+
+// ── SEND DOCX TO TELEGRAM ──
+async function sendDocToTelegram(blob) {
+  const safe = (formData.company || 'DISKURS').replace(/[^\wЀ-ӿ]/g, '_');
+  const date = new Date().toLocaleDateString('ru-RU').replace(/\./g, '-');
+  const fname = `Бриф_${safe}_${date}.docx`;
+
+  const form = new FormData();
+  form.append('chat_id', CONFIG.TG_CHAT_ID);
+  form.append('document', blob, fname);
+  form.append('caption', `📎 Бриф: ${formData.company || ''} · ${formData.submittedAt || ''}`);
+
+  const res = await fetch(`https://api.telegram.org/bot${CONFIG.TG_TOKEN}/sendDocument`, {
+    method: 'POST',
+    body: form
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+}
+
+// ── SUBMIT ──
+async function submitForm() {
+  collectData();
+
+  document.getElementById('loadingOverlay').classList.add('active');
+  document.getElementById('submitBtn').disabled = true;
+
+  const errors = [];
+
+  // 1. Краткое сообщение в Telegram
+  try {
+    const tgText = formatTelegram();
+    const tgRes = await fetch(`https://api.telegram.org/bot${CONFIG.TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CONFIG.TG_CHAT_ID, text: tgText, parse_mode: 'Markdown' })
+    });
+    if (!tgRes.ok) errors.push('Telegram message');
+  } catch(e) { errors.push('Telegram message'); }
+
+  // 2. HTML-документ в Telegram
+  try {
+    const docBlob = buildDocxBlob();
+    await sendDocToTelegram(docBlob);
+  } catch(e) { errors.push('Telegram doc: ' + e.message); }
+
+  // 3. Google Sheets
+  if (CONFIG.SHEETS_WEBHOOK && CONFIG.SHEETS_WEBHOOK !== 'REPLACE_WITH_APPS_SCRIPT_URL') {
+    try {
+      await fetch(CONFIG.SHEETS_WEBHOOK, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+    } catch(e) { errors.push('Sheets'); }
+  }
+
+  document.getElementById('loadingOverlay').classList.remove('active');
+  document.getElementById(STEPS[currentStep].id).classList.remove('active');
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('successScreen').classList.add('active');
+}
+
+// ── HINTS ──
+function toggleHint(id) {
+  const box = document.getElementById(id);
+  if (box) box.classList.toggle('open');
+}
+</script>
+</body>
+</html>
